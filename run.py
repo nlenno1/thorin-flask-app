@@ -1,12 +1,14 @@
 # importing os and flask class and render template for HTML rendering
 import os
 import json
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash
+if os.path.exists("env.py"):
+    import env
 
 # creating an instance of the class and storing it in a variable called app
 # the first argument of the Flask class, is name of application's module
 app = Flask(__name__)
-
+app.secret_key = os.environ.get("SECRET_KEY")
 
 # app.route decorator wraps index function
 @app.route("/")
@@ -36,7 +38,8 @@ def about_member(member_name):
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
     if request.method == "POST":
-        print(request.form.get("name"))
+        flash("Thanks {}, we have recieved your message!".format(
+            request.form.get("name")))
     return render_template("contact.html", page_title="Contact")
 
 
