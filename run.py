@@ -1,7 +1,7 @@
 # importing os and flask class and render template for HTML rendering
 import os
 import json
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 # creating an instance of the class and storing it in a variable called app
 # the first argument of the Flask class, is name of application's module
@@ -33,8 +33,10 @@ def about_member(member_name):
     return render_template("member.html", member=member)
 
 
-@app.route("/contact")
+@app.route("/contact", methods=["GET", "POST"])
 def contact():
+    if request.method == "POST":
+        print(request.form.get("name"))
     return render_template("contact.html", page_title="Contact")
 
 
